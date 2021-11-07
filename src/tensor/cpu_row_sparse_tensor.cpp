@@ -287,7 +287,7 @@ Dtype TensorTemplate<CPU, ROW_SPARSE, Dtype>::Norm2()
 		size_t dim = this->shape.Count(1);
 
 		Dtype total_norm = 0.0;
-		tbb::mutex ll;
+		std::mutex ll;
 		tbb::parallel_for(size_t(0), row_cnt, size_t(1), [&](size_t i){
 			size_t row_idx = row_idxes.data->ptr[i];
 			auto norm = MKL_Norm2(dim, data->ptr + row_idx * dim);
