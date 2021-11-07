@@ -8,7 +8,9 @@ USE_GPU = 0
 FIND := find
 CXX := g++
 CXXFLAGS += -Wall -O3 -std=c++11
-LDFLAGS += -lm  -lmkl_rt -ltbb
+LDFLAGS += -lm
+LDFLAGS += -L$(MKL_ROOT)/lib -lmkl_rt
+LDFLAGS += -L$(TBB_ROOT)/lib -ltbb
 ifeq ($(USE_GPU), 1)
     CUDA_HOME := /usr/local/cuda-8.0
     NVCC := $(CUDA_HOME)/bin/nvcc
