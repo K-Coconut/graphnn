@@ -11,7 +11,8 @@ CXXFLAGS += -Wall -O3 -std=c++11
 LDFLAGS += -lm
 LDFLAGS += -L$(MKL_ROOT)/lib -lmkl_rt
 LDFLAGS += -L$(TBB_ROOT)/lib -ltbb
-LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib -Wl,-rpath $(TBB_ROOT)/lib
+LDFLAGS += -L$(INTEL_ROOT)/oneapi/compiler/2021.4.0/mac/compiler/lib -liomp5
+LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib -Wl,-rpath $(TBB_ROOT)/lib -Wl,-rpath $(INTEL_ROOT)/oneapi/compiler/2021.4.0/mac/compiler/lib
 ifeq ($(USE_GPU), 1)
     CUDA_HOME := /usr/local/cuda-8.0
     NVCC := $(CUDA_HOME)/bin/nvcc
