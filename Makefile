@@ -10,7 +10,7 @@ include_dirs = $(CUDA_HOME)/include $(MKL_ROOT)/include $(TBB_ROOT)/include incl
 CXXFLAGS += $(addprefix -I,$(include_dirs))
 CXXFLAGS += -fPIC
 
-cpp_files = $(shell $(FIND) src/ -name "*.cpp" -printf "%P\n")
+cpp_files = $(shell $(FIND) src/  -name "*.cpp" -print | sed 's\#src/\#\#g' |  tr "\n" " ")
 cxx_obj_files = $(subst .cpp,.o,$(cpp_files))
 obj_build_root = $(build_root)/objs
 objs = $(addprefix $(obj_build_root)/cxx/,$(cxx_obj_files))
@@ -20,7 +20,7 @@ ifeq ($(USE_GPU), 1)
     NVCCFLAGS += -DUSE_GPU
     NVCCFLAGS += $(addprefix -I,$(include_dirs))
     NVCCFLAGS += -std=c++11 --use_fast_math --compiler-options '-fPIC'
-    cu_files = $(shell $(FIND) src/ -name "*.cu" -printf "%P\n")
+    cu_files = $(shell $(FIND) src/  -name "*.cu" -print | sed 's\#src/\#\#g' |  tr "\n" " ")
     cu_obj_files = $(subst .cu,.o,$(cu_files))
     objs += $(addprefix $(obj_build_root)/cuda/,$(cu_obj_files))
 endif
@@ -30,7 +30,7 @@ DEPS = ${objs:.o=.d}
 lib_dir = $(build_root)/lib
 gnn_lib = $(lib_dir)/libgnn.a
 
-test_src = $(shell $(FIND) test/ -name "*.cpp" -printf "%P\n")
+test_src = $(shell $(FIND) test/  -name "*.cpp" -print | sed 's\#src/\#\#g' |  tr "\n" " ")
 test_objs = $(subst .cpp,.o,$(test_src))
 test_build_root = $(build_root)/test
 test_target = $(addprefix $(test_build_root)/,$(test_objs))
