@@ -7,17 +7,17 @@ USE_GPU = 0
 
 FIND := find
 CXX := g++
-CXXFLAGS += -Wall -O3 -std=c++11
+CXXFLAGS += -Wall -O3 -std=c++11 -fPIC
 LDFLAGS += -lm
-LDFLAGS += -L$(MKL_ROOT)/lib -lmkl_rt
-LDFLAGS += -L$(TBB_ROOT)/lib -ltbb
-LDFLAGS += -L$(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib -liomp5
-LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib -Wl,-rpath $(TBB_ROOT)/lib -Wl,-rpath $(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib
+LDFLAGS += -L$(MKL_ROOT)/lib/intel64/ -lmkl_rt
+LDFLAGS += -L$(TBB_ROOT)/lib/intel64/gcc4.8/ -ltbb
+LDFLAGS += -L$(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/ -liomp5
+LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib/intel64/ -Wl,-rpath $(TBB_ROOT)/lib/intel64/ -Wl,-rpath $(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/
 ifeq ($(USE_GPU), 1)
     CUDA_HOME := /usr/local/cuda-8.0
     NVCC := $(CUDA_HOME)/bin/nvcc
     NVCCFLAGS += --default-stream per-thread
-    LDFLAGS += -L$(CUDA_HOME)/lib64 -lcudart -lcublas -lcurand -lcusparse
+    LDFLAGS += -L$(CUDA_HOME)/lib -lcudart -lcublas -lcurand -lcusparse
 endif
 
 CUDA_ARCH :=    -gencode arch=compute_30,code=sm_30 \
