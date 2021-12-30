@@ -3,6 +3,7 @@
 
 #include "tensor.h"
 #include "t_data.h"
+#include <functional>
 
 namespace gnn
 {

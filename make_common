@@ -13,15 +13,14 @@ LDFLAGS += -lm
 LDFLAGS += -L$(MKL_ROOT)/lib/intel64/ -lmkl_rt
 LDFLAGS += -L$(TBB_ROOT)/lib/intel64/gcc4.8/ -ltbb
 LDFLAGS += -L$(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/ -liomp5
-LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib/intel64/ -Wl,-rpath $(TBB_ROOT)/lib/intel64/ -Wl,-rpath $(INTEL_ROOT)/oneapi/compiler/2021.4.0/linux/compiler/lib/intel64/
+LDFLAGS += -Wl,-rpath $(MKL_ROOT)/lib/intel64/ -Wl,-rpath $(TBB_ROOT)/lib/intel64/
 ifeq ($(USE_GPU), 1)
-    CUDA_HOME := /cm/shared/common_software_stack/apps/programming/compilers/cuda/11.2.1/
+    CUDA_HOME := /cm/shared/common_software_stack/apps/programming/compilers/cuda/10.1.243/
     NVCC := $(CUDA_HOME)/bin/nvcc
     NVCCFLAGS += --default-stream per-thread
     LDFLAGS += -L$(CUDA_HOME)/lib -lcudart -lcublas -lcurand -lcusparse
 endif
 
-CUDA_ARCH :=    -gencode arch=compute_30,code=sm_30 \
-                -gencode arch=compute_35,code=sm_35 \
+CUDA_ARCH :=    -gencode arch=compute_35,code=sm_35 \
                 -gencode arch=compute_50,code=sm_50 \
                 -gencode arch=compute_50,code=compute_50
