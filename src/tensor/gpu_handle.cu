@@ -1,7 +1,7 @@
 #include "tensor/gpu_handle.h"
 #include "util/gnn_macros.h"
 #include "util/mem_holder.h"
-#include "tbb/global_control.h"
+#include "tbb/tbb.h"
 
 namespace gnn
 {
@@ -16,7 +16,7 @@ __global__ void SetupRandKernel(curandState_t *state, unsigned long long seed)
 
 void GpuHandle::Init(int dev_id, unsigned int _streamcnt)
 {
-	tbb::global_control c(tbb::global_control::max_allowed_parallelism, 1);
+	tbb::task_scheduler_init init(4);
 	streamcnt = _streamcnt;
 	cudaDeviceReset();
 	cudaSetDevice(dev_id);
